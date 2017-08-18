@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.ultreia.maven</groupId>
     <artifactId>pom</artifactId>
-    <version>20</version>
+    <version>22</version>
   </parent>
 
   <groupId>io.ultreia.java4all.jgitflow</groupId>
@@ -101,7 +101,6 @@
     <!--<mavenVersion>3.0.5</mavenVersion>-->
     <jsch.agent.version>0.0.9</jsch.agent.version>
     <slf4j.version>1.7.25</slf4j.version>
-    <jgitflowPluginVersion>1.0-m5.1</jgitflowPluginVersion>
 
     <!-- license header configuration -->
     <license.licenseName>apache_v2</license.licenseName>
@@ -367,7 +366,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.3</version>
+          <version>3.6</version>
           <configuration>
             <topSiteURL>scm:git:https://git@gitlab.com/${organizationId}/${projectId}.git</topSiteURL>
             <stagingDirectory>${user.dir}/target/staging</stagingDirectory>
