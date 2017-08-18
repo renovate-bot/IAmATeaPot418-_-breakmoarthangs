@@ -3,7 +3,7 @@
   #%L
   JGitFlow Parent
   %%
-  Copyright (C) 2017 Ultreia.io
+  Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@
 
     <!-- license header configuration -->
     <license.licenseName>apache_v2</license.licenseName>
-    <license.organizationName>Ultreia.io</license.organizationName>
+    <license.organizationName>Atlassian Pty, LTD, Ultreia.io</license.organizationName>
 
     <!-- Site configuration -->
     <locales>en</locales>
