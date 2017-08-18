@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
+    <groupId>io.ultreia.maven</groupId>
+    <artifactId>pom</artifactId>
+    <version>20</version>
   </parent>
 
   <groupId>external.atlassian.jgitflow</groupId>
@@ -16,7 +16,7 @@
 
   <name>JGitFlow Parent</name>
   <description>The parent pom for the Jgit Flow project</description>
-  <url>https://www.bitbucket.org/atlassian/jgit-flow</url>
+  <url>https://ultreiaio.gitlab.io/jgit-flow</url>
   <organization>
     <name>Atlassian</name>
     <url>http://www.atlassian.com/</url>
@@ -36,6 +36,18 @@
       <organization>Atlassian</organization>
       <email>doklovic@atlassian.com</email>
     </developer>
+    <developer>
+      <id>tchemit</id>
+      <name>Tony Chemit</name>
+      <email>dev@tchemit.fr</email>
+      <organization>Ultreia.io</organization>
+      <organizationUrl>http://ultreia.io</organizationUrl>
+      <roles>
+        <role>lead</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Paris</timezone>
+    </developer>
   </developers>
 
   <prerequisites>
@@ -50,11 +62,16 @@
   </modules>
 
   <scm>
-    <connection>scm:git:ssh://git@bitbucket.org/atlassian/jgit-flow.git</connection>
-    <developerConnection>scm:git:ssh://git@bitbucket.org/atlassian/jgit-flow.git</developerConnection>
-    <url>https://bitbucket.org/atlassian/jgit-flow</url>
-    <tag>HEAD</tag>
+    <url>https://gitlab.com/${organizationId}/${projectId}</url>
+    <connection>scm:git:git@gitlab.com:${organizationId}/${projectId}.git</connection>
+    <developerConnection>scm:git:ssh://git@gitlab.com:${organizationId}/${projectId}.git</developerConnection>
   </scm>
+  <distributionManagement>
+    <site>
+      <id>gitlab.com</id>
+      <url>scm:git:https://git@gitlab.com/${organizationId}/${projectId}.git</url>
+    </site>
+  </distributionManagement>
 
   <properties>
     <maven.version>2.2.1</maven.version>
@@ -75,60 +92,27 @@
     <slf4j.version>1.7.7</slf4j.version>
     <skipUnits>${skipTests}</skipUnits>
     <jgitflowPluginVersion>1.0-m5.1</jgitflowPluginVersion>
-  </properties>
 
-  <repositories>
-    <repository>
-      <id>atlas-central</id>
-      <url>https://maven.atlassian.com/content/repositories/central</url>
-      <releases>
-        <checksumPolicy>fail</checksumPolicy>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <checksumPolicy>fail</checksumPolicy>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>the-real-central</id>
-      <url>http://repo1.maven.org/maven2</url>
-      <releases>
-        <checksumPolicy>fail</checksumPolicy>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <checksumPolicy>fail</checksumPolicy>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>atlas-central</id>
-      <url>https://maven.atlassian.com/content/repositories/central</url>
-      <releases>
-        <checksumPolicy>fail</checksumPolicy>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <checksumPolicy>fail</checksumPolicy>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>the-real-central</id>
-      <url>http://repo1.maven.org/maven2</url>
-      <releases>
-        <checksumPolicy>fail</checksumPolicy>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <checksumPolicy>fail</checksumPolicy>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
+    <organizationId>ultreiaio</organizationId>
+    <projectId>ird-observe</projectId>
+
+    <!-- license header configuration -->
+    <license.licenseName>apache_v2</license.licenseName>
+    <license.organizationName>Ultreia.io</license.organizationName>
+
+
+    <!-- Site configuration -->
+    <locales>en</locales>
+    <generateSitemap>true</generateSitemap>
+    <relativizeDecorationLinks>false</relativizeDecorationLinks>
+
+    <!--Gitlab configuration-->
+    <gitlab.changesTitle>JGit Flow changelog</gitlab.changesTitle>
+    <gitlab.changesAuthor>Tony Chemit</gitlab.changesAuthor>
+    <gitlab.changesAuthorEmail>dev@tchemit.fr</gitlab.changesAuthorEmail>
+    <gitlab.trackers>critical,bug,enhancement,support,documentation</gitlab.trackers>
+
+  </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -287,110 +271,180 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.3</version>
+          <configuration>
+            <topSiteURL>scm:git:https://git@gitlab.com/${organizationId}/${projectId}.git</topSiteURL>
+            <stagingDirectory>${user.dir}/target/staging</stagingDirectory>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <configuration>
+            <scmBranch>pages</scmBranch>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <excludes>
+              <exclude>**/*$*</exclude>
+              <exclude>it/**</exclude>
+            </excludes>
+            <argLine>-Xmx1024m</argLine>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>external.atlassian.jgitflow</groupId>
+          <artifactId>jgitflow-maven-plugin</artifactId>
           <inherited>false</inherited>
+          <configuration>
+            <allowSnapshots>true</allowSnapshots>
+            <enableFeatureVersions>true</enableFeatureVersions>
+            <pushFeatures>true</pushFeatures>
+            <pushReleases>true</pushReleases>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <defaultOriginUrl>git@gitlab.com:ultreiaio/jgit-flow.git</defaultOriginUrl>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+          </configuration>
+        </plugin>
+        <!-- Temporary workaround for jira.codehaus.org/browse/MPLUGIN-244 -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <additionalparam>-Xdoclint:none</additionalparam>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.15</version>
-        <configuration>
-          <skipTests>${skipUnits}</skipTests>
-          <excludes>
-            <exclude>**/*$*</exclude>
-            <exclude>it/**</exclude>
-          </excludes>
-          <argLine>-Xmx1024m</argLine>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.8</version>
-        <configuration>
-          <reportSets>
-            <reportSet>
-              <reports><!-- select reports -->
-                <report>index</report>
-              </reports>
-            </reportSet>
-          </reportSets>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>1.0-m5.1</version>
-        <inherited>false</inherited>
-        <configuration>
-          <allowSnapshots>true</allowSnapshots>
-          <enableFeatureVersions>true</enableFeatureVersions>
-          <pushFeatures>true</pushFeatures>
-          <pushReleases>true</pushReleases>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <defaultOriginUrl>git@bitbucket.org:atlassian/jgit-flow.git</defaultOriginUrl>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.0</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-      <!-- Temporary workaround for jira.codehaus.org/browse/MPLUGIN-244 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <additionalparam>-Xdoclint:none</additionalparam>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <inherited>false</inherited>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
+
   </build>
 
   <profiles>
+
     <profile>
-      <id>releaseBranchPrefix-sign-artifacts</id>
+      <id>reporting</id>
       <activation>
         <property>
           <name>performRelease</name>
           <value>true</value>
         </property>
       </activation>
-      <build>
+
+      <reporting>
         <plugins>
+
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.4</version>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>${projectInfoReportsPluginVersion}</version>
+            <inherited>false</inherited>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>index</report>
+                  <report>project-team</report>
+                  <report>mailing-list</report>
+                  <report>cim</report>
+                  <report>issue-tracking</report>
+                  <report>license</report>
+                  <report>scm</report>
+                  <report>dependency-info</report>
+                  <report>dependencies</report>
+                  <report>dependency-convergence</report>
+                  <report>plugin-management</report>
+                  <report>plugins</report>
+                  <report>dependency-management</report>
+                  <report>summary</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+
+          <plugin>
+            <artifactId>maven-changes-plugin</artifactId>
+            <version>${changesPluginVersion}</version>
+            <inherited>false</inherited>
+            <configuration>
+              <issueLinkTemplatePerSystem>
+                <gitlab>https://gitlab.com/${organizationId}/${projectId}/issues/%ISSUE%</gitlab>
+              </issueLinkTemplatePerSystem>
+              <xmlPath>${project.build.directory}/generated-site/changes.xml</xmlPath>
+            </configuration>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>changes-report</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+
+          <plugin>
+            <artifactId>maven-changelog-plugin</artifactId>
+            <version>${changelogPluginVersion}</version>
+            <inherited>false</inherited>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+            <version>${licensePluginVersion}</version>
+            <inherited>false</inherited>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>${versionsPluginVersion}</version>
+            <inherited>false</inherited>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>dependency-updates-report</report>
+                  <report>plugin-updates-report</report>
+                  <report>property-updates-report</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+
+        </plugins>
+      </reporting>
+
+      <build>
+
+        <plugins>
+
+          <plugin>
+            <groupId>io.ultreia.maven</groupId>
+            <artifactId>gitlab-maven-plugin</artifactId>
+            <inherited>false</inherited>
             <executions>
               <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
+                <inherited>false</inherited>
                 <goals>
-                  <goal>sign</goal>
+                  <goal>generate-changes</goal>
                 </goals>
+                <phase>pre-site</phase>
               </execution>
             </executions>
           </plugin>
+
         </plugins>
+
       </build>
+
     </profile>
+
   </profiles>
+
+
 </project>
