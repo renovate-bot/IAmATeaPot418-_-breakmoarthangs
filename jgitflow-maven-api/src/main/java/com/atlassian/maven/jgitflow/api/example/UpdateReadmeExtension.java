@@ -2,7 +2,7 @@ package com.atlassian.maven.jgitflow.api.example;
 
 /*-
  * #%L
- * Maven JGitFlow API
+ * JGitFlow :: Maven API
  * %%
  * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
  * %%

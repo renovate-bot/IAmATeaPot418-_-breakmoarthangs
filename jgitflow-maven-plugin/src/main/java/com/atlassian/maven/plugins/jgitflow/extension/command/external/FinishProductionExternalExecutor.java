@@ -2,7 +2,7 @@ package com.atlassian.maven.plugins.jgitflow.extension.command.external;
 
 /*-
  * #%L
- * Maven JGitFlow Plugin
+ * JGitFlow :: Maven Plugin
  * %%
  * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
  * %%

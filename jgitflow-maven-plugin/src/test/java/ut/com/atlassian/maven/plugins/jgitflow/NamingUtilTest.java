@@ -2,7 +2,7 @@ package ut.com.atlassian.maven.plugins.jgitflow;
 
 /*-
  * #%L
- * Maven JGitFlow Plugin
+ * JGitFlow :: Maven Plugin
  * %%
  * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
  * %%

@@ -2,7 +2,7 @@ package ut.com.atlassian.jgitflow.core;
 
 /*-
  * #%L
- * JGit-Flow core library
+ * JGitFlow :: Core
  * %%
  * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
  * %%

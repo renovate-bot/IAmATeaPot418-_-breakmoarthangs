@@ -2,7 +2,7 @@ package com.atlassian.jgitflow.core.exception;
 
 /*-
  * #%L
- * JGit-Flow core library
+ * JGitFlow :: Core
  * %%
  * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
  * %%

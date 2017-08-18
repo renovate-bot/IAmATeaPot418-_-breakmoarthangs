@@ -2,7 +2,7 @@ package com.atlassian.maven.plugins.jgitflow.rewrite;
 
 /*-
  * #%L
- * Maven JGitFlow Plugin
+ * JGitFlow :: Maven Plugin
  * %%
  * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
  * %%

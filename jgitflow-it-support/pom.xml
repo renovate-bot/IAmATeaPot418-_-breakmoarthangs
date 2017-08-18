@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
-  jgitflow-it-support
+  JGitFlow :: Its Support
   %%
   Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
   %%
@@ -26,7 +26,7 @@
   <parent>
     <groupId>io.ultreia.java4all.jgitflow</groupId>
     <artifactId>jgitflow-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-rc-1-SNAPSHOT</version>
   </parent>
 
   <artifactId>jgitflow-it-support</artifactId>
