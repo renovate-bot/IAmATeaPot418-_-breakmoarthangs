@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  JGitFlow Parent
+  %%
+  Copyright (C) 2017 Ultreia.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -50,10 +70,6 @@
     </developer>
   </developers>
 
-  <prerequisites>
-    <maven>${maven.version}</maven>
-  </prerequisites>
-
   <modules>
     <module>jgitflow-core</module>
     <module>jgitflow-maven-api</module>
@@ -93,12 +109,11 @@
     <jgitflowPluginVersion>1.0-m5.1</jgitflowPluginVersion>
 
     <organizationId>ultreiaio</organizationId>
-    <projectId>ird-observe</projectId>
+    <projectId>jgit-flow</projectId>
 
     <!-- license header configuration -->
     <license.licenseName>apache_v2</license.licenseName>
     <license.organizationName>Ultreia.io</license.organizationName>
-
 
     <!-- Site configuration -->
     <locales>en</locales>
@@ -111,6 +126,12 @@
     <gitlab.changesAuthorEmail>dev@tchemit.fr</gitlab.changesAuthorEmail>
     <gitlab.trackers>critical,bug,enhancement,support,documentation</gitlab.trackers>
 
+    <!--deploy all-->
+    <maven.deploy.skip>false</maven.deploy.skip>
+    <!--build javadoc-->
+    <maven.javadoc.skip>false</maven.javadoc.skip>
+    <!--build sources-->
+    <maven.source.skip>false</maven.source.skip>
   </properties>
 
   <dependencyManagement>
@@ -161,10 +182,33 @@
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-core</artifactId>
         <version>${maven.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-container-default</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-model</artifactId>
+        <version>${maven.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-project</artifactId>
         <version>${maven.version}</version>
       </dependency>
       <dependency>
@@ -177,7 +221,17 @@
         <artifactId>maven-settings</artifactId>
         <version>${maven.version}</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-artifact-manager</artifactId>
+        <version>${maven.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-container-default</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
       <dependency>
         <groupId>org.apache.maven.release</groupId>
         <artifactId>maven-release-manager</artifactId>
@@ -186,6 +240,10 @@
           <exclusion>
             <groupId>org.apache.maven.scm</groupId>
             <artifactId>maven-scm-providers-standard</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-container-default</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -200,6 +258,11 @@
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
         <version>${plexus-utils.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-interactivity-api</artifactId>
+        <version>1.0-alpha-6</version>
       </dependency>
 
       <dependency>
@@ -216,6 +279,11 @@
         <scope>test</scope>
       </dependency>
       <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-artifact</artifactId>
         <version>${maven-artifact.version}</version>
@@ -226,6 +294,16 @@
         <groupId>com.jcraft</groupId>
         <artifactId>jsch.agentproxy.jsch</artifactId>
         <version>${jsch.agent.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jsch.agentproxy.core</artifactId>
+        <version>${jsch.agent.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jsch</artifactId>
+        <version>0.1.49</version>
       </dependency>
       <dependency>
         <groupId>com.jcraft</groupId>
@@ -245,26 +323,46 @@
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-component-annotations</artifactId>
-        <version>1.5.5</version>
+        <version>1.7.1</version>
       </dependency>
+
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
   <build>
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>src/main/filtered-resources</directory>
         <includes>
-          <include>VERSION</include>
+          <include>**/*</include>
         </includes>
         <filtering>true</filtering>
       </resource>
 
       <resource>
         <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>VERSION</exclude>
-        </excludes>
+        <includes>
+          <include>**/*</include>
+        </includes>
       </resource>
     </resources>
     <pluginManagement>
@@ -324,6 +422,13 @@
           <configuration>
             <additionalparam>-Xdoclint:none</additionalparam>
           </configuration>
+        </plugin>
+
+        <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.3.7</version>
+          <extensions>true</extensions>
         </plugin>
       </plugins>
     </pluginManagement>
