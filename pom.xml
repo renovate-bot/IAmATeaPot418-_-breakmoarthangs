@@ -30,7 +30,7 @@
 
   <groupId>io.ultreia.java4all.jgitflow</groupId>
   <artifactId>jgitflow-parent</artifactId>
-  <version>1.0.0-rc-2-SNAPSHOT</version>
+  <version>1.0.0-rc-1</version>
   <packaging>pom</packaging>
 
   <name>JGitFlow :: Pom</name>
