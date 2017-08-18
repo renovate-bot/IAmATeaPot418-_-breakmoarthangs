@@ -45,7 +45,7 @@ wget -q -O - https://gitlab.com/ultreiaio/pom/raw/master/bin/update-staging-chan
 # Generate site
 
 ``` 
-mvn clean verify site -DperformRelease scm-publish:publish-scm
+mvn clean verify site site:stage scm-publish:publish-scm -DperformRelease
 ```
 
 # Deploy latest demo

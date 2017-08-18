@@ -9,7 +9,6 @@ stages:
   - Build
   - Test
   - Staging
-  - Production
 
 .before_script_default: &before_script_default
   before_script:
