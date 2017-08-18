@@ -20,23 +20,23 @@ package com.atlassian.maven.plugins.jgitflow.mojo;
  * #L%
  */
 
+import com.atlassian.maven.jgitflow.api.MavenJGitFlowExtension;
+import com.atlassian.maven.plugins.jgitflow.FlowInitContext;
+import com.google.common.base.Strings;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
-
-import com.atlassian.maven.jgitflow.api.MavenJGitFlowExtension;
-import com.atlassian.maven.plugins.jgitflow.FlowInitContext;
-
-import com.google.common.base.Strings;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
@@ -46,13 +46,13 @@ import org.apache.maven.settings.Settings;
  */
 public abstract class AbstractJGitFlowMojo extends AbstractMojo
 {
-    @Component
+    @Parameter(defaultValue = "${project}", readonly = true, required = true)
     protected MavenProject project;
 
-    @Component
+    @Parameter(defaultValue = "${session}", readonly = true, required = true)
     protected MavenSession session;
 
-    @Component
+    @Parameter(defaultValue = "${settings}", readonly = true, required = true)
     private Settings settings;
 
     @Parameter(defaultValue = "${basedir}", readonly = true, required = true)
@@ -63,7 +63,7 @@ public abstract class AbstractJGitFlowMojo extends AbstractMojo
 
     /**
      * This parameter permits you to configure branch and tag names, as shown in the following example:
-     * 
+     *
      * <pre>
      * &lt;flowInitContext&gt;
      *   &lt;masterBranchName&gt;master&lt;/masterBranchName&gt;
@@ -74,7 +74,7 @@ public abstract class AbstractJGitFlowMojo extends AbstractMojo
      *   &lt;versionTagPrefix&gt;stable-&lt;/versionTagPrefix&gt;
      * &lt;/flowInitContext&gt;
      * </pre>
-     * 
+     *
      */
     @Parameter(defaultValue = "${flowInitContext}")
     private FlowInitContext flowInitContext;
@@ -169,7 +169,7 @@ public abstract class AbstractJGitFlowMojo extends AbstractMojo
     /**
      * This can be used to force the type of line ending used when rewriting poms.
      * If not set, blank or has an invalid value, the eol will be looked up from core.eol
-     * 
+     *
      * Valid values are: native, lf, crlf
      */
     @Parameter(defaultValue = "", property = "eol")
