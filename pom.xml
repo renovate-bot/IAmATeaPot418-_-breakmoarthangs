@@ -29,7 +29,7 @@
     <version>20</version>
   </parent>
 
-  <groupId>external.atlassian.jgitflow</groupId>
+  <groupId>io.ultreia.jgitflow</groupId>
   <artifactId>jgitflow-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
