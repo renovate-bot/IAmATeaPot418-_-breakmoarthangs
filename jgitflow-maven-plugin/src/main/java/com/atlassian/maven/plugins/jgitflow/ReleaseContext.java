@@ -82,6 +82,7 @@ public class ReleaseContext
     private MavenHotfixFinishExtension hotfixFinishExtension;
     private String eol;
     private boolean releaseSnapshots;
+    private boolean addScmCommentSuffixOnMerge;
 
     public ReleaseContext(File baseDir)
     {
@@ -673,6 +674,15 @@ public class ReleaseContext
     public ReleaseContext setHotfixFinishExtension(MavenHotfixFinishExtension hotfixFinishExtension)
     {
         this.hotfixFinishExtension = hotfixFinishExtension;
+        return this;
+    }
+
+    public boolean isAddScmCommentSuffixOnMerge() {
+        return addScmCommentSuffixOnMerge;
+    }
+
+    public ReleaseContext setAddScmCommentSuffixOnMerge(boolean addScmCommentSuffixOnMerge) {
+        this.addScmCommentSuffixOnMerge = addScmCommentSuffixOnMerge;
         return this;
     }
 }

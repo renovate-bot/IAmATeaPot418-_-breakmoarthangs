@@ -115,6 +115,7 @@ public class DefaultFlowReleaseManager extends AbstractProductionBranchManager
                                                  .setNoMerge(ctx.isNoReleaseMerge())
                                                  .setScmMessagePrefix(ctx.getScmCommentPrefix())
                                                  .setScmMessageSuffix(ctx.getScmCommentSuffix())
+                                                 .setAddScmCommentSuffixOnMerge(ctx.isAddScmCommentSuffixOnMerge())
                                                  .setExtension(finishExtension)
                                                  .call();
 

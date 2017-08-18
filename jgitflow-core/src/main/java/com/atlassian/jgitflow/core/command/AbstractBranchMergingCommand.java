@@ -29,7 +29,6 @@ import com.atlassian.jgitflow.core.exception.LocalBranchMissingException;
 import com.atlassian.jgitflow.core.extension.BranchMergingExtension;
 import com.atlassian.jgitflow.core.extension.impl.MergeProcessExtensionWrapper;
 import com.atlassian.jgitflow.core.util.GitHelper;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
@@ -46,6 +45,7 @@ public abstract class AbstractBranchMergingCommand<C, T> extends AbstractGitFlow
     private boolean keepBranch;
     private boolean forceDeleteBranch;
     private String message;
+    private boolean addScmCommentSuffixOnMerge;
 
     protected AbstractBranchMergingCommand(String branchName, Git git, GitFlowConfiguration gfConfig)
     {
@@ -107,7 +107,7 @@ public abstract class AbstractBranchMergingCommand<C, T> extends AbstractGitFlow
 
                 if (mergeResult.getMergeStatus().isSuccessful() && (MergeCommand.FastForwardMode.FF.equals(ffMode) || isCustomScmMessage))
                 {
-                    git.commit().setMessage(getScmMessagePrefix() + "merging '" + branchToMerge + "' into '" + mergeTarget + "'" + getScmMessageSuffix()).call();
+                    git.commit().setMessage(getScmMessagePrefix() + "merging '" + branchToMerge + "' into '" + mergeTarget + "'" + (isAddScmCommentSuffixOnMerge() ? getScmMessageSuffix() : "")).call();
                 }
             }
 
@@ -248,5 +248,14 @@ public abstract class AbstractBranchMergingCommand<C, T> extends AbstractGitFlow
     public String getMessage()
     {
         return message;
+    }
+
+    public boolean isAddScmCommentSuffixOnMerge() {
+        return addScmCommentSuffixOnMerge;
+    }
+
+    public C setAddScmCommentSuffixOnMerge(boolean addScmCommentSuffixOnMergeToMaster) {
+        this.addScmCommentSuffixOnMerge = addScmCommentSuffixOnMergeToMaster;
+        return (C) this;
     }
 }

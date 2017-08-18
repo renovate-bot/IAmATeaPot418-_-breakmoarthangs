@@ -137,6 +137,15 @@ public class ReleaseFinishMojo extends AbstractJGitFlowMojo
     @Parameter(property = "goals", defaultValue = "clean deploy")
     private String goals = "";
 
+    /**
+     * Should we use scm suffix on merge commit ?
+     *
+     * We need this for gitlab, for example set {@code [skip ci]} as commit suffix, so no build will be launched, but we would like
+     * to get a build when master in merged...
+     */
+    @Parameter(defaultValue = "true", property = "jgitflow.addScmCommentSuffixOnMerge")
+    private boolean addScmCommentSuffixOnMerge = true;
+
     @Component(hint = "release")
     FlowReleaseManager releaseManager;
 
@@ -178,6 +187,7 @@ public class ReleaseFinishMojo extends AbstractJGitFlowMojo
            .setDefaultOriginUrl(defaultOriginUrl)
            .setScmCommentPrefix(scmCommentPrefix)
            .setScmCommentSuffix(scmCommentSuffix)
+           .setAddScmCommentSuffixOnMerge(addScmCommentSuffixOnMerge)
            .setUsername(username)
            .setPassword(password)
            .setPullMaster(pullMaster)
