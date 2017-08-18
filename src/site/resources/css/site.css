@@ -1,0 +1,80 @@
+/*-
+ * #%L
+ * Maven JGitFlow Plugin
+ * %%
+ * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+.color-highlight {
+    color: #225E9B;
+}
+
+
+body[class*="page-themes-bootswatch"] {
+    background-image: none;
+}
+
+body[class*="page-themes-bootswatch"] .color-highlight {
+    color: inherit;
+}
+
+.thumbnail-row {
+    margin-top: 10px;
+}
+
+/*h1, */h2 {
+            margin-top: 30px;
+        }
+
+h3, h4, h5, h6 {
+    margin-top: 20px;
+}
+
+.carousel-caption a {
+    color: white;
+}
+
+/* A bit of workaround for links being not clickable due to :before element in headings */
+.project-jgitflow-maven-plugin.page-index h2[id]:before {
+    height: 30px;
+    margin-top: -30px;
+}
+
+.project-jgitflow-maven-plugin.page-index .sidebar {
+    margin-top: 10px;
+}
+
+.project-jgitflow-maven-plugin.page-index .sidebar {
+    margin-top: 10px;
+}
+
+.project-jgitflow-maven-plugin.page-index .sidebar h3 {
+    margin-top: 10px;
+}
+
+
+@media (min-width: 980px) {
+    .page-themes-bootswatch-readable .navbar.affix {
+        top: 60px;
+    }
+
+    .page-themes-bootswatch-cerulean .navbar.affix {
+        top: 50px;
+    }
+
+    .page-themes-bootswatch-spruce .navbar.affix {
+        top: 55px;
+    }
+}

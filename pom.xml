@@ -90,26 +90,19 @@
   </distributionManagement>
 
   <properties>
-    <maven.version>2.2.1</maven.version>
-    <!--<mavenVersion>3.0.5</mavenVersion>-->
-    <maven.plugin.plugin.version>3.3</maven.plugin.plugin.version>
-    <maven.release.version>2.4</maven.release.version>
-    <jsch.agent.version>0.0.7</jsch.agent.version>
-    <jgit.version>4.0.1.201506240215-r</jgit.version>
-    <jgitconsole.version>3.7.1.201504261725-r</jgitconsole.version>
-    <jline.version>1.0</jline.version>
-    <gson.version>2.2.2</gson.version>
-    <jdom2.version>2.0.4</jdom2.version>
-    <guava.version>14.0.1</guava.version>
-    <plexus-utils.version>1.5.15</plexus-utils.version>
-    <junit.version>4.11</junit.version>
-    <commons-io.version>2.4</commons-io.version>
-    <maven-artifact.version>2.2.1</maven-artifact.version>
-    <slf4j.version>1.7.7</slf4j.version>
-    <jgitflowPluginVersion>1.0-m5.1</jgitflowPluginVersion>
 
     <organizationId>ultreiaio</organizationId>
     <projectId>jgit-flow</projectId>
+
+    <javaVersion>1.7</javaVersion>
+    <signatureArtifactId>java17</signatureArtifactId>
+    <signatureVersion>1.0</signatureVersion>
+
+    <maven.version>2.2.1</maven.version>
+    <!--<mavenVersion>3.0.5</mavenVersion>-->
+    <jsch.agent.version>0.0.7</jsch.agent.version>
+    <slf4j.version>1.7.7</slf4j.version>
+    <jgitflowPluginVersion>1.0-m5.1</jgitflowPluginVersion>
 
     <!-- license header configuration -->
     <license.licenseName>apache_v2</license.licenseName>
@@ -126,6 +119,8 @@
     <gitlab.changesAuthorEmail>dev@tchemit.fr</gitlab.changesAuthorEmail>
     <gitlab.trackers>critical,bug,enhancement,support,documentation</gitlab.trackers>
 
+    <javadoc.failOnError>false</javadoc.failOnError>
+
     <!--deploy all-->
     <maven.deploy.skip>false</maven.deploy.skip>
     <!--build javadoc-->
@@ -139,7 +134,7 @@
       <dependency>
         <groupId>org.eclipse.jgit</groupId>
         <artifactId>org.eclipse.jgit.console</artifactId>
-        <version>${jgitconsole.version}</version>
+        <version>3.7.1.201504261725-r</version>
         <exclusions>
           <exclusion>
             <groupId>com.jcraft</groupId>
@@ -150,7 +145,7 @@
       <dependency>
         <groupId>org.eclipse.jgit</groupId>
         <artifactId>org.eclipse.jgit</artifactId>
-        <version>${jgit.version}</version>
+        <version>4.0.1.201506240215-r</version>
         <exclusions>
           <exclusion>
             <groupId>com.jcraft</groupId>
@@ -161,22 +156,22 @@
       <dependency>
         <groupId>jline</groupId>
         <artifactId>jline</artifactId>
-        <version>${jline.version}</version>
+        <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
-        <version>${gson.version}</version>
+        <version>2.8.1</version>
       </dependency>
       <dependency>
         <groupId>org.jdom</groupId>
         <artifactId>jdom2</artifactId>
-        <version>${jdom2.version}</version>
+        <version>2.0.4</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>${guava.version}</version>
+        <version>14.0.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -225,7 +220,7 @@
       <dependency>
         <groupId>org.apache.maven.release</groupId>
         <artifactId>maven-release-manager</artifactId>
-        <version>${maven.release.version}</version>
+        <version>2.4</version>
         <exclusions>
           <exclusion>
             <groupId>org.apache.maven.scm</groupId>
@@ -236,14 +231,14 @@
       <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
         <artifactId>maven-plugin-annotations</artifactId>
-        <version>${maven.plugin.plugin.version}</version>
+        <version>${pluginPluginVersion}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
-        <version>${plexus-utils.version}</version>
+        <version>1.5.15</version>
       </dependency>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
@@ -260,14 +255,14 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
+        <version>4.11</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>${commons-io.version}</version>
+        <version>2.4</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -278,7 +273,7 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-artifact</artifactId>
-        <version>${maven-artifact.version}</version>
+        <version>2.2.1</version>
       </dependency>
 
       <!-- jsch agent stuff -->
@@ -368,10 +363,23 @@
       <plugins>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
           <configuration>
             <topSiteURL>scm:git:https://git@gitlab.com/${organizationId}/${projectId}.git</topSiteURL>
             <stagingDirectory>${user.dir}/target/staging</stagingDirectory>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>lt.velykis.maven.skins</groupId>
+              <artifactId>reflow-velocity-tools</artifactId>
+              <version>1.1.1</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.velocity</groupId>
+              <artifactId>velocity</artifactId>
+              <version>1.7</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <artifactId>maven-scm-publish-plugin</artifactId>
@@ -407,26 +415,20 @@
             <defaultOriginUrl>git@gitlab.com:ultreiaio/jgit-flow.git</defaultOriginUrl>
           </configuration>
         </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-          </configuration>
-        </plugin>
         <!-- Temporary workaround for jira.codehaus.org/browse/MPLUGIN-244 -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <configuration>
             <additionalparam>-Xdoclint:none</additionalparam>
+            <quiet>true</quiet>
           </configuration>
         </plugin>
 
         <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.7</version>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.3.7</version>
           <extensions>true</extensions>
         </plugin>
       </plugins>
@@ -451,7 +453,6 @@
           <plugin>
             <artifactId>maven-project-info-reports-plugin</artifactId>
             <version>${projectInfoReportsPluginVersion}</version>
-            <inherited>false</inherited>
             <reportSets>
               <reportSet>
                 <reports>
@@ -494,6 +495,11 @@
           </plugin>
 
           <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadocPluginVersion}</version>
+          </plugin>
+
+          <plugin>
             <artifactId>maven-changelog-plugin</artifactId>
             <version>${changelogPluginVersion}</version>
             <inherited>false</inherited>
@@ -503,14 +509,12 @@
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>license-maven-plugin</artifactId>
             <version>${licensePluginVersion}</version>
-            <inherited>false</inherited>
           </plugin>
 
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>versions-maven-plugin</artifactId>
             <version>${versionsPluginVersion}</version>
-            <inherited>false</inherited>
             <reportSets>
               <reportSet>
                 <reports>

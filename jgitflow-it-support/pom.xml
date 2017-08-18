@@ -30,6 +30,7 @@
   </parent>
 
   <artifactId>jgitflow-it-support</artifactId>
+  <name>GitFlow Its Support</name>
   <description>GitFlow Its Support</description>
 
   <dependencies>
