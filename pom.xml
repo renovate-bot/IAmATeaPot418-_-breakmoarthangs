@@ -366,7 +366,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.6</version>
+          <version>3.3</version>
           <configuration>
             <topSiteURL>scm:git:https://git@gitlab.com/${organizationId}/${projectId}.git</topSiteURL>
             <stagingDirectory>${user.dir}/target/staging</stagingDirectory>
