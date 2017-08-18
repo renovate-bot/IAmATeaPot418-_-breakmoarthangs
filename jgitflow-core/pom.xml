@@ -24,7 +24,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.ultreia.jgitflow</groupId>
+    <groupId>io.ultreia.java4all.jgitflow</groupId>
     <artifactId>jgitflow-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
@@ -32,7 +32,7 @@
   <artifactId>jgitflow-core</artifactId>
   <packaging>bundle</packaging>
 
-  <name>JGit-Flow core library</name>
+  <name>JGitFlow :: Core</name>
   <description>The core java library implementing git flow</description>
 
   <dependencies>

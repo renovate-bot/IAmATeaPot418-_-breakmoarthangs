@@ -24,14 +24,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.ultreia.jgitflow</groupId>
+    <groupId>io.ultreia.java4all.jgitflow</groupId>
     <artifactId>jgitflow-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>jgitflow-maven-api</artifactId>
 
-  <name>Maven JGitFlow API</name>
+  <name>JGitFlow :: Maven API</name>
   <description>An API to allow maven projects to extend the jgitflow-maven-plugin</description>
 
   <dependencies>

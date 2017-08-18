@@ -29,12 +29,12 @@
     <version>20</version>
   </parent>
 
-  <groupId>io.ultreia.jgitflow</groupId>
+  <groupId>io.ultreia.java4all.jgitflow</groupId>
   <artifactId>jgitflow-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>JGitFlow Parent</name>
+  <name>JGitFlow :: Pom</name>
   <description>The parent pom for the Jgit Flow project</description>
   <url>https://ultreiaio.gitlab.io/jgit-flow</url>
   <organization>

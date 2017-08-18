@@ -24,23 +24,23 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.ultreia.jgitflow</groupId>
+    <groupId>io.ultreia.java4all.jgitflow</groupId>
     <artifactId>jgitflow-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>jgitflow-it-support</artifactId>
-  <name>GitFlow Its Support</name>
-  <description>GitFlow Its Support</description>
+  <name>JGitFlow :: Its Support</name>
+  <description>JGitFlow Its Support</description>
 
   <dependencies>
     <dependency>
-      <groupId>io.ultreia.jgitflow</groupId>
+      <groupId>io.ultreia.java4all.jgitflow</groupId>
       <artifactId>jgitflow-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.ultreia.jgitflow</groupId>
+      <groupId>io.ultreia.java4all.jgitflow</groupId>
       <artifactId>jgitflow-maven-api</artifactId>
       <version>${project.version}</version>
     </dependency>
