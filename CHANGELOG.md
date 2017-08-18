@@ -5,7 +5,7 @@
 
 ## Version [1.0.0-rc-1](https://gitlab.com/ultreiaio/jgit-flow/milestones/1)
 
-**Closed at 2017-08-31.**
+**Closed at 2017-08-18.**
 
 
 ### Issues
