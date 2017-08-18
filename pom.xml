@@ -407,19 +407,6 @@
           </configuration>
         </plugin>
 
-        <plugin>
-          <groupId>external.atlassian.jgitflow</groupId>
-          <artifactId>jgitflow-maven-plugin</artifactId>
-          <inherited>false</inherited>
-          <configuration>
-            <allowSnapshots>true</allowSnapshots>
-            <enableFeatureVersions>true</enableFeatureVersions>
-            <pushFeatures>true</pushFeatures>
-            <pushReleases>true</pushReleases>
-            <autoVersionSubmodules>true</autoVersionSubmodules>
-            <defaultOriginUrl>git@gitlab.com:ultreiaio/jgit-flow.git</defaultOriginUrl>
-          </configuration>
-        </plugin>
         <!-- Temporary workaround for jira.codehaus.org/browse/MPLUGIN-244 -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
