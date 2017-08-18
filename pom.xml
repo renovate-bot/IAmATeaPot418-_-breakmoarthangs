@@ -117,7 +117,7 @@
     <gitlab.changesAuthorEmail>dev@tchemit.fr</gitlab.changesAuthorEmail>
     <gitlab.trackers>critical,bug,enhancement,support,documentation</gitlab.trackers>
 
-    <javadoc.failOnError>false</javadoc.failOnError>
+    <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 
     <!--deploy all-->
     <maven.deploy.skip>false</maven.deploy.skip>
