@@ -9,7 +9,7 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>jgit-flow-core</artifactId>
+  <artifactId>jgitflow-core</artifactId>
   <packaging>bundle</packaging>
 
   <name>JGit-Flow core library</name>

@@ -22,7 +22,7 @@
   <dependencies>
     <dependency>
       <groupId>external.atlassian.jgitflow</groupId>
-      <artifactId>jgit-flow-core</artifactId>
+      <artifactId>jgitflow-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

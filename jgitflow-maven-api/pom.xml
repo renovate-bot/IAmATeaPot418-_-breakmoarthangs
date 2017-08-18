@@ -17,7 +17,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>jgit-flow-core</artifactId>
+      <artifactId>jgitflow-core</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
