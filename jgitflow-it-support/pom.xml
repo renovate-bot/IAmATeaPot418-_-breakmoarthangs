@@ -1,37 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  JGitFlow :: Its Support
+  %%
+  Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>jgitflow-parent</artifactId>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <version>1.0-m5.1</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jgitflow-it-support</artifactId>
+  <parent>
+    <groupId>io.ultreia.java4all.jgitflow</groupId>
+    <artifactId>jgitflow-parent</artifactId>
+    <version>1.0.0-rc-1</version>
+  </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>external.atlassian.jgitflow</groupId>
-            <artifactId>jgitflow-maven-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+  <artifactId>jgitflow-it-support</artifactId>
+  <name>JGitFlow :: Its Support</name>
+  <description>JGitFlow Its Support</description>
 
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <inherited>false</inherited>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  <dependencies>
+    <dependency>
+      <groupId>io.ultreia.java4all.jgitflow</groupId>
+      <artifactId>jgitflow-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.ultreia.java4all.jgitflow</groupId>
+      <artifactId>jgitflow-maven-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
 </project>

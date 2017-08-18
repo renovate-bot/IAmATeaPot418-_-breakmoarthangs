@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  JGitFlow :: Pom
+  %%
+  Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+
+<project name="${project.name}"
+         xmlns="http://maven.apache.org/DECORATION/1.7.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
+
+  <skin>
+    <groupId>lt.velykis.maven.skins</groupId>
+    <artifactId>reflow-maven-skin</artifactId>
+    <version>1.1.1</version>
+  </skin>
+  <custom>
+    <reflowSkin>
+      <protocolRelativeURLs>false</protocolRelativeURLs>
+      <smoothScroll>false</smoothScroll>
+      <theme>default</theme>
+      <highlightJs>true</highlightJs>
+      <highlightJsTheme>default</highlightJsTheme>
+      <imgLightbox>false</imgLightbox>
+      <!--<absoluteResourceURL>http://jgitflow.bitbucket.org</absoluteResourceURL>-->
+      <brand>
+        <!-- Reflow Maven Skin, but with "Reflow" highlighted -->
+        <name><![CDATA[<span class="color-highlight">JGit Flow</span> Maven Plugin]]></name>
+        <href>index.html</href>
+      </brand>
+      <slogan>A maven plugin that allows you to use Git Flow and Maven Together!</slogan>
+      <titleTemplate>%2$s | %1$s</titleTemplate>
+      <!-- Use Table of Contents at the top of the page (max 6 elements) -->
+      <toc>top</toc>
+      <tocTopMax>6</tocTopMax>
+
+      <bottomDescription quote="false"> </bottomDescription>
+      <pages>
+        <index project="jgitflow-maven-plugin">
+          <shortTitle>JGit Flow</shortTitle>
+          <!-- no breadcrumbs on the main index page -->
+          <breadcrumbs>false</breadcrumbs>
+          <!-- no ToC on the main index page -->
+          <toc>false</toc>
+          <sections>
+            <columns>2</columns>
+            <body/>
+          </sections>
+        </index>
+        <config>
+          <shortTitle>Configuration</shortTitle>
+        </config>
+      </pages>
+    </reflowSkin>
+  </custom>
+
+  <publishDate position="navigation-bottom" format="yyyy-MM-dd HH:mm"/>
+  <version position="navigation-bottom"/>
+  <googleAnalyticsAccountId>UA-63000101-1</googleAnalyticsAccountId>
+
+  <bannerLeft>
+    <!-- Reflow Maven Skin, but with "Reflow" highlighted -->
+    <name><![CDATA[
+              <span class="color-highlight">JGit Flow</span>
+             ]]></name>
+    <href>index.html</href>
+  </bannerLeft>
+  <body>
+
+    <links>
+      <item name="Original project" href="https://bitbucket.org/atlassian/jgit-flow"/>
+      <item name="Ultreia.io" href="http://ultreia.io"/>
+    </links>
+
+    <breadcrumbs>
+      <item name="${project.name}" href="./index.html"/>
+    </breadcrumbs>
+
+    <menu ref="modules"/>
+    <menu ref="reports"/>
+  </body>
+</project>

@@ -1,5 +1,25 @@
 package com.atlassian.maven.plugins.jgitflow.mojo;
 
+/*-
+ * #%L
+ * JGitFlow :: Maven Plugin
+ * %%
+ * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import com.atlassian.maven.jgitflow.api.MavenReleaseFinishExtension;
 import com.atlassian.maven.plugins.jgitflow.ReleaseContext;
 import com.atlassian.maven.plugins.jgitflow.exception.MavenJGitFlowException;
@@ -112,10 +132,19 @@ public class ReleaseFinishMojo extends AbstractJGitFlowMojo
     private String arguments = "";
 
     /**
-     * The space-separated list of gaols to run when doing a maven deploy
+     * The space-separated list of goals to run when doing a maven deploy
      */
     @Parameter(property = "goals", defaultValue = "clean deploy")
     private String goals = "";
+
+    /**
+     * Should we use scm suffix on merge commit ?
+     *
+     * We need this for gitlab, for example set {@code [skip ci]} as commit suffix, so no build will be launched, but we would like
+     * to get a build when master in merged...
+     */
+    @Parameter(defaultValue = "true", property = "jgitflow.addScmCommentSuffixOnMerge")
+    private boolean addScmCommentSuffixOnMerge = true;
 
     @Component(hint = "release")
     FlowReleaseManager releaseManager;
@@ -158,6 +187,7 @@ public class ReleaseFinishMojo extends AbstractJGitFlowMojo
            .setDefaultOriginUrl(defaultOriginUrl)
            .setScmCommentPrefix(scmCommentPrefix)
            .setScmCommentSuffix(scmCommentSuffix)
+           .setAddScmCommentSuffixOnMerge(addScmCommentSuffixOnMerge)
            .setUsername(username)
            .setPassword(password)
            .setPullMaster(pullMaster)

@@ -1,5 +1,25 @@
 package com.atlassian.maven.plugins.jgitflow;
 
+/*-
+ * #%L
+ * JGitFlow :: Maven Plugin
+ * %%
+ * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import com.atlassian.jgitflow.core.InitContext;
 import com.atlassian.maven.jgitflow.api.MavenHotfixFinishExtension;
 import com.atlassian.maven.jgitflow.api.MavenHotfixStartExtension;
@@ -34,6 +54,8 @@ public class ReleaseContext
     private String tagMessage;
     private String defaultReleaseVersion;
     private String defaultDevelopmentVersion;
+    private String versionNumberToIncrement;
+    private boolean incrementDevelopFromReleaseVersion;
     private String defaultFeatureName;
     private String releaseBranchVersionSuffix;
     private InitContext flowInitContext;
@@ -59,6 +81,8 @@ public class ReleaseContext
     private MavenHotfixStartExtension hotfixStartExtension;
     private MavenHotfixFinishExtension hotfixFinishExtension;
     private String eol;
+    private boolean releaseSnapshots;
+    private boolean addScmCommentSuffixOnMerge;
 
     public ReleaseContext(File baseDir)
     {
@@ -66,6 +90,7 @@ public class ReleaseContext
         this.allowSnapshots = false;
         this.defaultReleaseVersion = null;
         this.defaultDevelopmentVersion = null;
+        this.versionNumberToIncrement = null;
         this.interactive = true;
         this.autoVersionSubmodules = false;
         this.updateDependencies = true;
@@ -105,6 +130,8 @@ public class ReleaseContext
         this.hotfixStartExtension = null;
         this.hotfixFinishExtension = null;
         this.eol = "";
+        this.versionNumberToIncrement = "2";
+        this.releaseSnapshots = true;
     }
 
     public boolean isAllowSnapshots()
@@ -137,6 +164,28 @@ public class ReleaseContext
     public ReleaseContext setDefaultDevelopmentVersion(String version)
     {
         this.defaultDevelopmentVersion = version;
+        return this;
+    }
+
+    public String getVersionNumberToIncrement() {
+		return versionNumberToIncrement;
+	}
+
+    public int getVersionNumberToIncrementAsInt() {
+		return Integer.parseInt(versionNumberToIncrement);
+	}
+
+	public ReleaseContext setVersionNumberToIncrement(String versionNumberToIncrement) {
+		this.versionNumberToIncrement = versionNumberToIncrement;
+		return this;
+	}
+
+    public boolean isIncrementDevelopFromReleaseVersion() {
+        return incrementDevelopFromReleaseVersion;
+    }
+
+    public ReleaseContext setIncrementDevelopFromReleaseVersion(boolean incrementDevelopFromReleaseVersion) {
+        this.incrementDevelopFromReleaseVersion = incrementDevelopFromReleaseVersion;
         return this;
     }
 
@@ -594,6 +643,17 @@ public class ReleaseContext
         this.eol = eol;
         return this;
     }
+
+    public boolean isReleaseSnapshots()
+    {
+        return releaseSnapshots;
+    }
+
+    public ReleaseContext setReleaseSnapshots(boolean releaseSnapshots)
+    {
+        this.releaseSnapshots = releaseSnapshots;
+        return this;
+    }
     
     public MavenHotfixStartExtension getHotfixStartExtension()
     {
@@ -614,6 +674,15 @@ public class ReleaseContext
     public ReleaseContext setHotfixFinishExtension(MavenHotfixFinishExtension hotfixFinishExtension)
     {
         this.hotfixFinishExtension = hotfixFinishExtension;
+        return this;
+    }
+
+    public boolean isAddScmCommentSuffixOnMerge() {
+        return addScmCommentSuffixOnMerge;
+    }
+
+    public ReleaseContext setAddScmCommentSuffixOnMerge(boolean addScmCommentSuffixOnMerge) {
+        this.addScmCommentSuffixOnMerge = addScmCommentSuffixOnMerge;
         return this;
     }
 }

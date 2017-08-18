@@ -1,5 +1,25 @@
 package ut.com.atlassian.maven.plugins.jgitflow.manager;
 
+/*-
+ * #%L
+ * JGitFlow :: Maven Plugin
+ * %%
+ * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +31,7 @@ import com.atlassian.maven.plugins.jgitflow.ReleaseContext;
 import com.atlassian.maven.plugins.jgitflow.helper.SessionAndProjects;
 import com.atlassian.maven.plugins.jgitflow.manager.FlowReleaseManager;
 
+import com.atlassian.maven.plugins.jgitflow.provider.JGitFlowProvider;
 import com.google.common.base.Strings;
 
 import org.apache.maven.artifact.Artifact;
@@ -262,6 +283,11 @@ public abstract class AbstractFlowManagerTest extends PlexusJUnit4TestCase
         assertTrue(flow.git().getRepository().getBranch().contains(flow.getHotfixBranchPrefix()));
     }
 
+    protected JGitFlow getFlow() throws Exception
+    {
+        return (JGitFlow) ((JGitFlowProvider)lookup(JGitFlowProvider.class.getName())).gitFlow();
+    }
+    
     protected FlowReleaseManager getReleaseManager() throws Exception
     {
         return (FlowReleaseManager) lookup(FlowReleaseManager.class.getName(), "release");

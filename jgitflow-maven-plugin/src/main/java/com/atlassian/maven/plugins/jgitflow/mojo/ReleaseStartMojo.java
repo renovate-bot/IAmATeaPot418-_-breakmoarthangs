@@ -1,5 +1,25 @@
 package com.atlassian.maven.plugins.jgitflow.mojo;
 
+/*-
+ * #%L
+ * JGitFlow :: Maven Plugin
+ * %%
+ * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import com.atlassian.maven.jgitflow.api.MavenReleaseStartExtension;
 import com.atlassian.maven.plugins.jgitflow.ReleaseContext;
 import com.atlassian.maven.plugins.jgitflow.exception.MavenJGitFlowException;
@@ -39,8 +59,20 @@ public class ReleaseStartMojo extends AbstractJGitFlowMojo
     private String developmentVersion = "";
 
     /**
-     * Suffix to append to versions on the release branch.
+     * Version number to increment - 0=Major, 1=Minor, 2=Minor/Patch (Depending on version pattern).
      */
+    @Parameter(property = "versionNumberToIncrement", defaultValue = "2")
+    private String versionNumberToIncrement = "2";
+
+    /**
+     * Increment the new develop branch version number based off of the release version.
+     */
+    @Parameter(defaultValue = "false", property = "incrementDevelopFromReleaseVersion")
+    private boolean incrementDevelopFromReleaseVersion = false;
+
+     /**
+      * Suffix to append to versions on the release branch.
+      */
     @Parameter(property = "releaseBranchVersionSuffix", defaultValue = "")
     private String releaseBranchVersionSuffix = "";
 
@@ -74,6 +106,12 @@ public class ReleaseStartMojo extends AbstractJGitFlowMojo
     @Parameter(defaultValue = "")
     private String releaseStartExtension = "";
 
+    /**
+     * Whether to add -SNAPSHOT to the new version in the release branch
+     */
+    @Parameter(defaultValue = "true", property = "releaseSnapshots")
+    private boolean releaseSnapshots = true;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
@@ -88,6 +126,8 @@ public class ReleaseStartMojo extends AbstractJGitFlowMojo
            .setInteractive(getSettings().isInteractiveMode())
            .setDefaultReleaseVersion(releaseVersion)
            .setDefaultDevelopmentVersion(developmentVersion)
+           .setVersionNumberToIncrement(versionNumberToIncrement)
+           .setIncrementDevelopFromReleaseVersion(incrementDevelopFromReleaseVersion)
            .setReleaseBranchVersionSuffix(releaseBranchVersionSuffix)
            .setAllowSnapshots(allowSnapshots)
            .setUpdateDependencies(updateDependencies)
@@ -105,7 +145,8 @@ public class ReleaseStartMojo extends AbstractJGitFlowMojo
            .setUsername(username)
            .setPassword(password)
            .setReleaseStartExtension(extensionObject)
-                .setEol(eol)
+           .setEol(eol)
+           .setReleaseSnapshots(releaseSnapshots) 
            .setFlowInitContext(getFlowInitContext().getJGitFlowContext());
 
         try

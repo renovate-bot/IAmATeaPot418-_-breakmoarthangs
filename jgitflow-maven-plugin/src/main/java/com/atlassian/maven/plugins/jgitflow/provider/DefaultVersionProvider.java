@@ -1,5 +1,25 @@
 package com.atlassian.maven.plugins.jgitflow.provider;
 
+/*-
+ * #%L
+ * JGitFlow :: Maven Plugin
+ * %%
+ * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import com.atlassian.jgitflow.core.JGitFlow;
 import com.atlassian.maven.plugins.jgitflow.PrettyPrompter;
 import com.atlassian.maven.plugins.jgitflow.ReleaseContext;
@@ -12,7 +32,7 @@ import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.shared.release.util.ReleaseUtil;
-import org.apache.maven.shared.release.version.HotfixVersionInfo;
+import org.apache.maven.shared.release.version.JGitFlowVersionInfo;
 import org.apache.maven.shared.release.versions.DefaultVersionInfo;
 import org.apache.maven.shared.release.versions.VersionParseException;
 import org.codehaus.plexus.component.annotations.Component;
@@ -215,7 +235,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
             {
                 String rootProjectId = ArtifactUtils.versionlessKey(rootProject.getGroupId(), rootProject.getArtifactId());
 
-                String rootVersion = getNextVersion(versionState, versionType, rootProject, rootProject, contextVersion, promptLabel);
+                String rootVersion = getNextVersion(versionState, versionType, rootProject, rootProject, contextVersion, promptLabel, ctx.isIncrementDevelopFromReleaseVersion());
 
                 versions.put(rootProjectId, rootVersion);
 
@@ -230,7 +250,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
                 for (MavenProject project : reactorProjects)
                 {
                     String projectId = ArtifactUtils.versionlessKey(project.getGroupId(), project.getArtifactId());
-                    String moduleVersion = getNextVersion(versionState, versionType, rootProject, project, contextVersion, promptLabel);
+                    String moduleVersion = getNextVersion(versionState, versionType, rootProject, project, contextVersion, promptLabel, ctx.isIncrementDevelopFromReleaseVersion());
                     versions.put(projectId, moduleVersion);
                 }
             }
@@ -272,7 +292,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
         return lastReleaseVersions.get(ProjectCacheKey.MASTER_BRANCH);
     }
 
-    protected String getNextVersion(VersionState state, VersionType versionType, MavenProject rootProject, MavenProject project, String contextVersion, String promptLabel) throws MavenJGitFlowException
+    protected String getNextVersion(VersionState state, VersionType versionType, MavenProject rootProject, MavenProject project, String contextVersion, String promptLabel, boolean isIncrementDevelopFromReleaseVersion) throws MavenJGitFlowException
     {
         ReleaseContext ctx = contextProvider.getContext();
         String defaultVersion = null;
@@ -296,7 +316,8 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
             else
             {
                 String baseVersion = null;
-                if (VersionType.DEVELOPMENT.equals(versionType) && nextReleaseVersions.containsKey(ProjectCacheKey.RELEASE_START_LABEL))
+                // MJF-241: Get next version from the release only if configured
+                if (isIncrementDevelopFromReleaseVersion && VersionType.DEVELOPMENT.equals(versionType) && nextReleaseVersions.containsKey(ProjectCacheKey.RELEASE_START_LABEL))
                 {
                     // MJF-176: Get next version from the release version
                     Map<String, String> versionCache = nextReleaseVersions.get(ProjectCacheKey.RELEASE_START_LABEL);
@@ -338,10 +359,10 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
     {
         ReleaseContext ctx = contextProvider.getContext();
         String suggestedVersion = "unknown";
-        DefaultVersionInfo info;
+        JGitFlowVersionInfo info;
         try
         {
-            info = new DefaultVersionInfo(incomingVersion);
+            info = new JGitFlowVersionInfo(incomingVersion);
         }
         catch (VersionParseException e)
         {
@@ -349,7 +370,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
             {
                 try
                 {
-                    info = new DefaultVersionInfo("1.0");
+                    info = new JGitFlowVersionInfo("1.0");
                 }
                 catch (VersionParseException e1)
                 {
@@ -368,7 +389,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
         }
         else if (VersionType.DEVELOPMENT.equals(versionType))
         {
-            suggestedVersion = info.getNextVersion().getSnapshotVersionString();
+            suggestedVersion = info.getNextDevelopmentVersion(ctx.getVersionNumberToIncrementAsInt()).getSnapshotVersionString();
         }
 
         return suggestedVersion;
@@ -403,7 +424,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
                     higherVersion = lastRelease;
                 }
 
-                final HotfixVersionInfo hotfixInfo = new HotfixVersionInfo(higherVersion);
+                final JGitFlowVersionInfo hotfixInfo = new JGitFlowVersionInfo(higherVersion);
                 suggestedVersion = hotfixInfo.getHotfixVersionString();
             }
             catch (VersionParseException e)
@@ -415,7 +436,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
         {
             try
             {
-                final HotfixVersionInfo hotfixInfo = new HotfixVersionInfo(defaultVersion);
+                final JGitFlowVersionInfo hotfixInfo = new JGitFlowVersionInfo(defaultVersion);
                 suggestedVersion = hotfixInfo.getHotfixVersionString();
             }
             catch (VersionParseException e)
@@ -427,10 +448,10 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
         // Fixup project version, if it is a snapshot, in such a case decrement the snapshot version
         while (StringUtils.isBlank(suggestedVersion) || ArtifactUtils.isSnapshot(suggestedVersion))
         {
-            HotfixVersionInfo info = null;
+            JGitFlowVersionInfo info = null;
             try
             {
-                info = new HotfixVersionInfo(defaultVersion);
+                info = new JGitFlowVersionInfo(defaultVersion);
             }
             catch (VersionParseException e)
             {
@@ -438,7 +459,7 @@ public class DefaultVersionProvider extends AbstractLogEnabled implements Versio
                 {
                     try
                     {
-                        info = new HotfixVersionInfo("2.0");
+                        info = new JGitFlowVersionInfo("2.0");
                     }
                     catch (VersionParseException e1)
                     {

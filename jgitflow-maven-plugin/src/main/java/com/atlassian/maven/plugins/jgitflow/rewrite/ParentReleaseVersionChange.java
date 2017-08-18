@@ -1,5 +1,25 @@
 package com.atlassian.maven.plugins.jgitflow.rewrite;
 
+/*-
+ * #%L
+ * JGitFlow :: Maven Plugin
+ * %%
+ * Copyright (C) 2017 Atlassian Pty, LTD, Ultreia.io
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,26 +69,29 @@ public class ParentReleaseVersionChange implements ProjectChange
             Element parentVersionElement = root.getChild("parent", ns).getChild("version", ns);
             MavenProject parent = project.getParent();
             String parentId = ArtifactUtils.versionlessKey(parent.getGroupId(), parent.getArtifactId());
-
-            String parentVersion = releaseVersions.get(parentId);
-            if (null == parentVersion && consistentProjectVersions && releaseVersions.size() > 0)
+            // Don't attempt to update parents that aren't even in the project
+            if (originalVersions.get(parentId) != null)
             {
-                // Use any release version, as the project's versions are consistent/global
-                parentVersion = releaseVersions.values().iterator().next();
-            }
-
-            if (null == parentVersion)
-            {
-                if (parent.getVersion().equals(originalVersions.get(parentId)))
+                String parentVersion = releaseVersions.get(parentId);
+                if (null == parentVersion && consistentProjectVersions && releaseVersions.size() > 0)
                 {
-                    throw new ProjectRewriteException("Release version for parent " + parent.getName() + " was not found");
+                    // Use any release version, as the project's versions are consistent/global
+                    parentVersion = releaseVersions.values().iterator().next();
                 }
-            }
-            else
-            {
-                workLog.add("setting parent version to '" + parentVersion + "'");
-                parentVersionElement.setText(parentVersion);
-                modified = true;
+
+                if (null == parentVersion)
+                {
+                    if (parent.getVersion().equals(originalVersions.get(parentId)))
+                    {
+                        throw new ProjectRewriteException("Release version for parent " + parent.getName() + " was not found");
+                    }
+                }
+                else
+                {
+                    workLog.add("setting parent version to '" + parentVersion + "'");
+                    parentVersionElement.setText(parentVersion);
+                    modified = true;
+                }
             }
         }
 
