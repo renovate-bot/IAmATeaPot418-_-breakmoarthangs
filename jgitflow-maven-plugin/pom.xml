@@ -159,11 +159,11 @@
       <artifactId>jsch.agentproxy.core</artifactId>
     </dependency>
 
-    <dependency>
+    <!--dependency>
       <groupId>org.apache.servicemix.bundles</groupId>
       <artifactId>org.apache.servicemix.bundles.jsch</artifactId>
       <scope>runtime</scope>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-container-default</artifactId>

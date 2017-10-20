@@ -19,13 +19,14 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.ultreia.maven</groupId>
     <artifactId>pom</artifactId>
-    <version>22</version>
+    <version>2017.34</version>
   </parent>
 
   <groupId>io.ultreia.java4all.jgitflow</groupId>
@@ -77,14 +78,14 @@
   </modules>
 
   <scm>
-    <url>https://gitlab.com/${organizationId}/${projectId}</url>
-    <connection>scm:git:git@gitlab.com:${organizationId}/${projectId}.git</connection>
-    <developerConnection>scm:git:ssh://git@gitlab.com:${organizationId}/${projectId}.git</developerConnection>
+    <url>https://gitlab.com/${projectPath}</url>
+    <connection>scm:git:git@gitlab.com:${projectPath}.git</connection>
+    <developerConnection>scm:git:ssh://git@gitlab.com:${projectPath}.git</developerConnection>
   </scm>
   <distributionManagement>
     <site>
       <id>gitlab.com</id>
-      <url>scm:git:https://git@gitlab.com/${organizationId}/${projectId}.git</url>
+      <url>scm:git:https://git@gitlab.com/${projectPath}.git</url>
     </site>
   </distributionManagement>
 
@@ -172,6 +173,21 @@
         <version>20.0</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-api</artifactId>
+        <version>1.9.4</version>
+      </dependency>
+      <dependency>
+        <groupId>jaxen</groupId>
+        <artifactId>jaxen</artifactId>
+        <version>1.1-beta-8</version>
+      </dependency>
+      <dependency>
+        <groupId>classworlds</groupId>
+        <artifactId>classworlds</artifactId>
+        <version>1.1</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-core</artifactId>
         <version>${maven.version}</version>
@@ -187,6 +203,10 @@
           <exclusion>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -224,6 +244,14 @@
             <groupId>org.apache.maven.scm</groupId>
             <artifactId>maven-scm-providers-standard</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -242,6 +270,11 @@
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
         <version>3.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-interpolation</artifactId>
+        <version>1.24</version>
       </dependency>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
@@ -272,6 +305,11 @@
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
         <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.9</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -367,10 +405,6 @@
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.3</version>
-          <configuration>
-            <topSiteURL>scm:git:https://git@gitlab.com/${organizationId}/${projectId}.git</topSiteURL>
-            <stagingDirectory>${user.dir}/target/staging</stagingDirectory>
-          </configuration>
           <dependencies>
             <dependency>
               <groupId>lt.velykis.maven.skins</groupId>
@@ -383,12 +417,6 @@
               <version>1.7</version>
             </dependency>
           </dependencies>
-        </plugin>
-        <plugin>
-          <artifactId>maven-scm-publish-plugin</artifactId>
-          <configuration>
-            <scmBranch>pages</scmBranch>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -471,7 +499,7 @@
             <inherited>false</inherited>
             <configuration>
               <issueLinkTemplatePerSystem>
-                <gitlab>https://gitlab.com/${organizationId}/${projectId}/issues/%ISSUE%</gitlab>
+                <gitlab>https://gitlab.com/${projectPath}/issues/%ISSUE%</gitlab>
               </issueLinkTemplatePerSystem>
               <xmlPath>${project.build.directory}/generated-site/changes.xml</xmlPath>
             </configuration>
